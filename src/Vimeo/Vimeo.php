@@ -78,6 +78,7 @@ class Vimeo
         // add accept header hardcoded to version 3.0
         $headers[] = 'Accept: ' . self::VERSION_STRING;
         $headers[] = 'User-Agent: ' . self::USER_AGENT;
+        $method = strtoupper($method);
 
         // add bearer token, or client information
         if (!empty($this->_access_token)) {
@@ -90,7 +91,7 @@ class Vimeo
 
         //  Set the methods, determine the URL that we should actually request and prep the body.
         $curl_opts = array();
-        switch (strtoupper($method)) {
+        switch ($method) {
             case 'GET' :
                 if (!empty($params)) {
                     $query_component = '?' . http_build_query($params, '', '&');
@@ -213,7 +214,7 @@ class Vimeo
         $http = array_shift($list);
 
         foreach ($list as $header) {
-            $parts = explode(':', $header);
+            $parts = explode(':', $header, 2);
             $final_headers[trim($parts[0])] = isset($parts[1]) ? trim($parts[1]) : '';
         }
 
